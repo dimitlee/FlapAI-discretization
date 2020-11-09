@@ -3,6 +3,7 @@ This program implements a Q-Learning Agent.
 '''
 
 import os, sys
+import time
 sys.path.append('../game')
 sys.path.append('../utils')
 
@@ -17,15 +18,15 @@ from FlappyBirdGame import FlappyBirdNormal
 
 import warnings
 warnings.filterwarnings('ignore')
-        
+
 
 class QLearningAgent(FlappyBirdAgent):
     ''' Q-Learning Agent. '''
-    
+
     def __init__(self, actions, probFlap = 0.5, rounding = None):
         '''
         Initializes the agent.
-        
+
         Args:
             actions (list): Possible action values.
             probFlap (float): The probability of flapping when choosing
@@ -35,15 +36,17 @@ class QLearningAgent(FlappyBirdAgent):
         super().__init__(actions)
         self.probFlap = probFlap
         self.qValues = defaultdict(float)
-        self.env = FlappyBirdNormal(gym.make('FlappyBird-v0'), rounding = rounding)
+        gymenv = gym.make('FlappyBird-v0')
+        gymenv._max_episode_steps = 10000000
+        self.env = FlappyBirdNormal(gymenv, rounding = rounding)
 
     def act(self, state):
         '''
         Returns the next action for the current state.
-        
+
         Args:
             state (str): The current state.
-            
+
         Returns:
             int: 0 or 1.
         '''
@@ -51,25 +54,25 @@ class QLearningAgent(FlappyBirdAgent):
             if random.random() < self.probFlap:
                 return 0
             return 1
-            
+
         if random.random() < self.epsilon:
             return randomAct()
-            
+
         qValues = [self.qValues.get((state, action), 0) for action in self.actions]
-            
+
         if qValues[0] < qValues[1]:
             return 1
         elif qValues[0] > qValues[1]:
             return 0
         else:
             return randomAct()
-            
-    def saveQValues(self):
+
+    def saveQValues(self, iteration):
         ''' Saves the Q-values. '''
         toSave = {key[0] + ' action ' + str(key[1]) : self.qValues[key] for key in self.qValues}
-        with open('qValues.json', 'w') as fp:
+        with open(f'qValues_{iteration}.json', 'w') as fp:
             json.dump(toSave, fp)
-            
+
     def loadQValues(self):
         ''' Loads the Q-values. '''
         def parseKey(key):
@@ -86,7 +89,7 @@ class QLearningAgent(FlappyBirdAgent):
               numItersEval = 1000):
         '''
         Trains the agent.
-        
+
         Args:
             order (str): The order of updates, 'forward' or 'backward'.
             numIters (int): The number of training iterations.
@@ -111,11 +114,11 @@ class QLearningAgent(FlappyBirdAgent):
         done = False
         maxScore = 0
         maxReward = 0
-        
+
         for i in range(numIters):
             if i % 50 == 0 or i == numIters - 1:
                 print("Iter: ", i)
-            
+
             self.epsilon = self.initialEpsilon / (i + 1) if self.epsilonDecay \
                            else self.initialEpsilon
             score = 0
@@ -123,49 +126,49 @@ class QLearningAgent(FlappyBirdAgent):
             ob = self.env.reset()
             gameIter = []
             state = self.env.getGameState()
-            
+
             while True:
                 action = self.act(state)
                 nextState, reward, done, _ = self.env.step(action)
                 gameIter.append((state, action, reward, nextState))
                 state = nextState
-#                self.env.render()  # Uncomment it to display graphics.
+                # self.env.render()  # Uncomment it to display graphics.
                 totalReward += reward
                 if reward >= 1:
                     score += 1
                 if done:
                     break
-            
+
             if score > maxScore: maxScore = score
             if totalReward > maxReward: maxReward = totalReward
-            
+
             if order == 'forward':
                 for (state, action, reward, nextState) in gameIter:
                     self.updateQ(state, action, reward, nextState)
             else:
                 for (state, action, reward, nextState) in gameIter[::-1]:
                     self.updateQ(state, action, reward, nextState)
-                
+
             if self.etaDecay:
                 self.eta *= (i + 1) / (i + 2)
-            
+
             if (i + 1) % self.evalPerIters == 0:
                 output = self.test(numIters = self.numItersEval)
                 self.saveOutput(output, i + 1)
-                self.saveQValues()
-                
+                self.saveQValues(i + 1)
+
         self.env.close()
         print("Max Score Train: ", maxScore)
         print("Max Reward Train: ", maxReward)
         print()
-    
+
     def test(self, numIters = 20000):
         '''
         Evaluates the agent.
-        
+
         Args:
             numIters (int): The number of evaluation iterations.
-        
+
         Returns:
             dict: A set of scores.
         '''
@@ -176,37 +179,39 @@ class QLearningAgent(FlappyBirdAgent):
         maxScore = 0
         maxReward = 0
         output = defaultdict(int)
-        
+
         for i in range(numIters):
             score = 0
             totalReward = 0
             ob = self.env.reset()
             state = self.env.getGameState()
-            
+
+
             while True:
                 action = self.act(state)
                 state, reward, done, _ = self.env.step(action)
-#                self.env.render()  # Uncomment it to display graphics.
+                # self.env.render()  # Uncomment it to display graphics.
                 totalReward += reward
                 if reward >= 1:
                     score += 1
                 if done:
                     break
-                    
+
             output[score] += 1
             if score > maxScore: maxScore = score
             if totalReward > maxReward: maxReward = totalReward
-    
+
         self.env.close()
+
         print("Max Score Test: ", maxScore)
         print("Max Reward Test: ", maxReward)
         print()
         return output
-            
+
     def updateQ(self, state, action, reward, nextState):
         '''
         Updates the Q-values based on an observation.
-        
+
         Args:
             state, nextState (str): Two states.
             action (int): 0 or 1.
@@ -216,11 +221,11 @@ class QLearningAgent(FlappyBirdAgent):
         nextValue = max(nextQValues)
         self.qValues[(state, action)] = (1 - self.eta) * self.qValues.get((state, action), 0) \
                                         + self.eta * (reward + self.discount * nextValue)
-        
+
     def saveOutput(self, output, iter):
         '''
         Saves the scores.
-        
+
         Args:
             output (dict): A set of scores.
             iter (int): Current iteration.
