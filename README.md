@@ -30,11 +30,12 @@ There are a number of arguments that main.py accepts, some of them are:
 * --discount - Discount factor (coefficient of the next state's Q-value in the update equation)
 * --probFlap - Probability to choose action 1 when choosing random action
 
-We run the experiment using **Q-Learning** agent with **backward** updates and exploration rate of **0**. Below is an example of how the experiment can be started. You can tweak the parameters as you want, try different algorithms by replacing "QLearning" with an algorithm from ('Baseline' ,'QLearning', 'SARSA', 'FuncApproxLR', 'FuncApproxDNN', 'FuncApproxCNN').
+We run the experiment using **Q-Learning** agent with **backward** updates and exploration rate of **0**. Below is an example of how the experiment can be started.
 
 ```bash
 python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0
 ```
+You can tweak the parameters as you want, try different algorithms by replacing "QLearning" with an algorithm from ('Baseline' ,'QLearning', 'SARSA', 'FuncApproxLR', 'FuncApproxDNN', 'FuncApproxCNN').
 
 ## Original Authors
 
