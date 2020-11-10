@@ -20,9 +20,17 @@ The project requires the following frameworks:
 
 ## Train an Agent
 
-We run the experiment using Q-Learning agent with backward updates and exploration rate of 0. Below is an example of how the experiment can be started.
+There are a number of arguments that main.py accepts, some of them are:
 
-- Q-Learning Agent.
+* --algo - the RL algorithm you want to run ("Baseline", "QLearning", "SARSA", etc.)
+* --order - how the Q-table is updated ("backward" or "forward")
+* --rounding - Discretization level (smaller means higher state space and thus longer convergence)
+* --epsilon - Exploration rate (probability of choosing random action)
+* --lr - Learning rate (coefficient of a target value in Q-values update equation)
+* --discount - Discount factor (coefficient of the next state's Q-value in the update equation)
+* --probFlap - Probability to choose action 1 when choosing random action
+
+We run the experiment using **Q-Learning** agent with **backward** updates and exploration rate of **0**. Below is an example of how the experiment can be started. You can tweak the parameters as you want, try different algorithms by replacing "QLearning" with an algorithm from ('Baseline' ,'QLearning', 'SARSA', 'FuncApproxLR', 'FuncApproxDNN', 'FuncApproxCNN').
 
 ```bash
 python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0
