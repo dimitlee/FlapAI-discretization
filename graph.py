@@ -29,7 +29,6 @@ def parseArgs():
 
 def main():
     args = parseArgs()
-    print("generating...")
 
     generate_graph(algo=args.algo, rounding=args.rounding, numTrainIters=args.lastIter, interval=args.interval)
 
