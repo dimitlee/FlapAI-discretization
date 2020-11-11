@@ -1,4 +1,4 @@
-# FlapAI-Bird - Discretization
+# Study of the impact of discretization in RL: Tradeoff between convergence and final performance in huge state spaces
 
 This repository borrows code from https://github.com/taivu1998/FlapAI-Bird for reproduction of their Reinforcement Learning Experiment in Flappy-Bird environment. In our experiment we are focusing on discretization feature in order to find the balance between convergence and final performance.
 
@@ -13,7 +13,7 @@ The project requires the following frameworks:
 - OpenAI Gym: https://gym.openai.com
 
 - gym-ple: https://github.com/lusob/gym-ple
- 
+
 - PyTorch: https://pytorch.org
 
 - OpenCV: https://opencv.org
