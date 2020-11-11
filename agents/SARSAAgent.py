@@ -67,7 +67,10 @@ class SARSAAgent(FlappyBirdAgent):
     def saveQValues(self, iteration):
         ''' Saves the Q-values. '''
         toSave = {key[0] + ' action ' + str(key[1]) : self.qValues[key] for key in self.qValues}
-        with open(f'qValues_{iteration}.json', 'w') as fp:
+
+        if not os.path.isdir('Qvalues'):
+            os.mkdir('Qvalues')
+        with open(f'Qvalues/qValues_{iteration}.json', 'w') as fp:
             json.dump(toSave, fp)
 
     def loadQValues(self):

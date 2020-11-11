@@ -14,6 +14,7 @@ import time
 from BaselineAgent import BaselineAgent
 from QLearningAgent import QLearningAgent
 from SARSAAgent import SARSAAgent
+from generate_graph import generate_graph
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -54,6 +55,8 @@ def parseArgs():
                         help = 'Use epsilon decay or not.')
     parser.add_argument('--lrDecay', action = 'store_true',
                         help = 'Use learning rate decay or not.')
+    parser.add_argument('--graph', action = 'store_true',
+                        help = 'To generate graph for scores or not')
 
     args = parser.parse_known_args()[0]
     return args
@@ -77,7 +80,9 @@ def main():
                     discount = args.discount, eta = args.lr, epsilonDecay = args.epsilonDecay,
                     etaDecay = args.lrDecay, evalPerIters = args.evalPerIters,
                     numItersEval = args.numTestIters)
-        agent.saveQValues()
+        if args.graph:
+            generate_graph(algo=args.algo, rounding=args.rounding, numTrainIters=args.numTrainIters,
+                            interval=args.evalPerIters)
 
     elif args.algo == 'SARSA':
         agent = SARSAAgent(actions = [0, 1], rounding = args.rounding, probFlap = args.probFlap)
@@ -85,7 +90,9 @@ def main():
                     discount = args.discount, eta = args.lr, epsilonDecay = args.epsilonDecay,
                     etaDecay = args.lrDecay, evalPerIters = args.evalPerIters,
                     numItersEval = args.numTestIters)
-        agent.saveQValues()
+        if args.graph:
+            generate_graph(algo=args.algo, rounding=args.rounding, numTrainIters=args.numTrainIters,
+                            interval=args.evalPerIters)
 
     end = time.time()
     print(f"Total of {end - start} seconds")

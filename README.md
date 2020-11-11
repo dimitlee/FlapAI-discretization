@@ -35,8 +35,27 @@ We run the experiment using **Q-Learning** agent with **backward** updates and e
 ```bash
 python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0
 ```
+
 You can tweak the parameters as you want, try different algorithms by replacing "QLearning" with an algorithm from ('Baseline' ,'QLearning', 'SARSA', 'FuncApproxLR', 'FuncApproxDNN', 'FuncApproxCNN').
 
+## Evaluating performance
+
+After some time (250 iterations by default) algorithms start a testing phase, during which score (number of tubes passed) is recorded and then written into a json file, where the name of the file represents at which iteration the testing began. You can generate graphs of maximum score and average score over several such testing phases. Below is an example of how you can do that in console:
+
+```bash
+python graph.py --algo QLearning --rounding 50 --lastIter 2500 --interval 250
+```
+
+* *--lastIter* here represents the caption of the last score.json file. In this case it would be named: *score_2500.json*
+* *--interval* represents the interval which separates two subsequent testing phases. In other words names' captions would be separated by this value. E.g *score_250.json*, *score_500.json*, *score_750.json*, ...
+
+Alternatively you can append *--graph* argument with value *True* to the call of main.py:
+
+```bash
+python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0
+```
+
+In this case the graph will be generated at the end of training.
 ## Original Authors
 
 * **Tai Vu** - Stanford University
