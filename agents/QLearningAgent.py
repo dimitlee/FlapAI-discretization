@@ -36,9 +36,7 @@ class QLearningAgent(FlappyBirdAgent):
         super().__init__(actions)
         self.probFlap = probFlap
         self.qValues = defaultdict(float)
-        gymenv = gym.make('FlappyBird-v0')
-        gymenv._max_episode_steps = 10000000
-        self.env = FlappyBirdNormal(gymenv, rounding = rounding)
+        self.env = FlappyBirdNormal(gym.make('FlappyBird-v0'), rounding = rounding)
 
     def act(self, state):
         '''
