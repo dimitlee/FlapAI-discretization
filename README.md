@@ -1,10 +1,6 @@
-# FlapAI-Bird
+# FlapAI-Bird - Discretization
 
-This AI program implements several AI agents for playing Flappy Bird. The program applies reinforcement learning algorithms, including SARSA, Q-Learning, and Function Approximation, and Deep Q Networks. After training for 10,000 iterations, the agents regularly achieves high scores of 1400+, with the highest in-game score of 2069. [[Paper]](https://arxiv.org/abs/2003.09579) [[Poster]](https://stanford-cs221.github.io/autumn2019-extra/posters/18.pdf)
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/46636857/77217879-87ed6e80-6b58-11ea-9110-a8c605c190b2.gif">
-</p>
+This repository borrows code from https://github.com/taivu1998/FlapAI-Bird for reproduction of their Reinforcement Learning Experiment in Flappy-Bird environment. In our experiment we are focusing on discretization feature in order to find the balance between convergence and final performance.
 
 ## Installation
 
@@ -24,45 +20,24 @@ The project requires the following frameworks:
 
 ## Train an Agent
 
-The program implements the following agents.
+There are a number of arguments that main.py accepts, some of them are:
 
-- Baseline Agent.
+* --algo - the RL algorithm you want to run ("Baseline", "QLearning", "SARSA", etc.)
+* --order - how the Q-table is updated ("backward" or "forward")
+* --rounding - Discretization level (smaller means higher state space and thus longer convergence)
+* --epsilon - Exploration rate (probability of choosing random action)
+* --lr - Learning rate (coefficient of a target value in Q-values update equation)
+* --discount - Discount factor (coefficient of the next state's Q-value in the update equation)
+* --probFlap - Probability to choose action 1 when choosing random action
 
-```bash
-python main.py --algo Baseline --probFlap 0.5
-```
-
-- SARSA Agent.
-
-```bash
-python main.py --algo SARSA --probFlap 0.1 --rounding 10 --lr 0.8
-```
-
-- Q-Learning Agent.
+We run the experiment using **Q-Learning** agent with **backward** updates and exploration rate of **0**. Below is an example of how the experiment can be started.
 
 ```bash
-python main.py --algo QLearning --probFlap 0.1 --rounding 10 --lr 0.8 --order backward
+python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0
 ```
+You can tweak the parameters as you want, try different algorithms by replacing "QLearning" with an algorithm from ('Baseline' ,'QLearning', 'SARSA', 'FuncApproxLR', 'FuncApproxDNN', 'FuncApproxCNN').
 
-- Function Approximation Agent with Linear Regression.
-
-```bash
-python main.py --algo FuncApproxLR --probFlap 0.1 --lr 0.1
-```
-
-- Function Approximation Agent with a Feed Forward Neural Network.
-
-```bash
-python main.py --algo FuncApproxDNN --probFlap 0.1 --lr 0.1
-```
-
-- Function Approximation Agent with Convolutional Neural Network.
-
-```bash
-python main.py --algo FuncApproxCNN --probFlap 0.1 --lr 0.1
-```
-
-## Authors
+## Original Authors
 
 * **Tai Vu** - Stanford University
 
