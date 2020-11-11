@@ -58,7 +58,7 @@ python graph.py --algo QLearning --rounding 50 --lastIter 2500 --interval 250
 Alternatively you can append *--graph* argument with value *True* to the call of main.py:
 
 ```bash
-python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0
+python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0 --graph True
 ```
 
 In this case the graph will be generated at the end of training.
