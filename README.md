@@ -10,19 +10,32 @@ You can walk through a [Google Colab notebook](https://colab.research.google.com
 
 The project requires the following frameworks:
 
-- Pygame: https://www.pygame.org
-
-- PyGame Learning Environment: https://github.com/ntasfi/PyGame-Learning-Environment
-
-- OpenAI Gym: https://gym.openai.com
-
-- gym-ple: https://github.com/lusob/gym-ple
-
-- PyTorch: https://pytorch.org
-
-- OpenCV: https://opencv.org
-
-- MatPlotLib: https://matplotlib.org/3.3.2/index.html
+Pygame:
+```bash
+pip install pygame==1.9.6
+```
+ 
+Gym:
+```bash
+pip install gym==0.15.4
+```
+ 
+Torch, torchvision and torchaudio:
+```bash
+!pip install torch==1.5.0 torchvision==0.6.0 -f https://download.pytorch.org/whl/torch_stable.html
+```
+ 
+Gym-ple:
+```
+pip install gym-ple
+```
+ 
+PLE:
+```bash
+git clone https://github.com/ntasfi/PyGame-Learning-Environment.git
+cd PyGame-Learning-Environment
+pip install -e .
+```
 
 ## Train an Agent
 
@@ -58,7 +71,7 @@ python graph.py --algo QLearning --rounding 50 --lastIter 2500 --interval 250
 Alternatively you can append *--graph* argument with value *True* to the call of main.py:
 
 ```bash
-python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0
+python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0 --graph True
 ```
 
 In this case the graph will be generated at the end of training.
