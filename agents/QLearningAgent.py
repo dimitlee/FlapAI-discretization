@@ -65,10 +65,10 @@ class QLearningAgent(FlappyBirdAgent):
         else:
             return randomAct()
 
-    def saveQValues(self, iteration):
+    def saveQValues(self, iteration):   #instead of storing only the last test we store each testing phase
         ''' Saves the Q-values. '''
         toSave = {key[0] + ' action ' + str(key[1]) : self.qValues[key] for key in self.qValues}
-
+        # store Q-values of each testing phase in a special directory
         if not os.path.isdir('Qvalues'):
             os.mkdir('Qvalues')
         with open(f'Qvalues/qValues_{iteration}.json', 'w') as fp:
@@ -111,11 +111,13 @@ class QLearningAgent(FlappyBirdAgent):
         self.evalPerIters = evalPerIters
         self.numItersEval = numItersEval
         self.env.seed(random.randint(0, 100))
-
+        # self.loadQValues()    #uncomment if you want to start from pre-learned qvals
         done = False
         maxScore = 0
         maxReward = 0
 
+        # record time since beginning
+        start = time.time()
         for i in range(numIters):
             if i % 50 == 0 or i == numIters - 1:
                 print("Iter: ", i)
@@ -155,8 +157,11 @@ class QLearningAgent(FlappyBirdAgent):
 
             if (i + 1) % self.evalPerIters == 0:
                 output = self.test(numIters = self.numItersEval)
+                end = time.time()
+                print("Time passed since the beginning:")
+                print(f"{(end - start)//3600} hours, {((end - start)%3600)//60} minutes, {((end - start)%3600)%60} seconds")
                 self.saveOutput(output, i + 1)
-                self.saveQValues(i + 1)
+                self.saveQValues(i + 1)   #instead of storing only the last test we store each testing phase
 
         self.env.close()
         print("Max Score Train: ", maxScore)
@@ -179,6 +184,7 @@ class QLearningAgent(FlappyBirdAgent):
         done = False
         maxScore = 0
         maxReward = 0
+        avgScore = 0        # we are also interested in average score
         output = defaultdict(int)
 
         for i in range(numIters):
@@ -199,6 +205,7 @@ class QLearningAgent(FlappyBirdAgent):
                     break
 
             output[score] += 1
+            avgScore = (avgScore * i + score) / (i + 1) # count average score iteratively
             if score > maxScore: maxScore = score
             if totalReward > maxReward: maxReward = totalReward
 
@@ -206,6 +213,7 @@ class QLearningAgent(FlappyBirdAgent):
 
         print("Max Score Test: ", maxScore)
         print("Max Reward Test: ", maxReward)
+        print("Avg Score Test: ", avgScore)
         print()
         return output
 

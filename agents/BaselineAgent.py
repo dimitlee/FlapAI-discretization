@@ -7,7 +7,7 @@ sys.path.append('../game')
 sys.path.append('../utils')
 
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime  # used for time measurement
 import json
 import random
 
@@ -87,13 +87,13 @@ class BaselineAgent(FlappyBirdAgent):
         maxReward = 0
         output = defaultdict(int)
         counter = 0
-        start_state = []
+        start_state = []  # used for time measurement
         for i in range(numIters):
             score = 0
             totalReward = 0
             ob = self.env.reset()
             state = self.env.getGameState()
-            start_state.append(state)
+            start_state.append(state)   # used for time measurement
             while True:
                 action = self.act(state)
                 state, reward, done, _ = self.env.step(action)
@@ -110,6 +110,7 @@ class BaselineAgent(FlappyBirdAgent):
             if score > maxScore: maxScore = score
             if totalReward > maxReward: maxReward = totalReward
 
+        # used for time measurement
         now = datetime.now()
         dt_string = now.strftime("%d_%m_%Y_%H_%M_%S")
         with open(f"start_state_{dt_string}.txt") as f:

@@ -31,8 +31,11 @@ def generate_graph(algo, rounding, numTrainIters, interval):
         # Repeat for next Testing phase
         iter += interval
 
+
     plt.plot(x, maxScore, label="Max Score")
     plt.plot(x, avgScore, label="Avg Score")
+    print(maxScore)
+    print(avgScore)
 
     plt.ylabel("Score")
     plt.xlabel("Iteration")
