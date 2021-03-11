@@ -50,20 +50,20 @@ There are a number of arguments that main.py accepts, some of them are:
 * **--probFlap** - Probability to choose action 1 when choosing random action
 
 We run the experiment using **Q-Learning** agent with **backward** updates and exploration rate of **0**.
-To run the 50x50 d.l. experiment run the following line:
+To run the **50x50** d.l. experiment run the following line:
 ```bash
 python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0
 ```
-For 20x20 run:
+For **20x20** run:
 ```bash
 python3 main.py --algo QLearning --probFlap 0.1 --rounding 20 --lr 0.8 --order backward --epsilon 0
 ```
-For 10x10 run:
+For **10x10** run:
 ```bash
 python3 main.py --algo QLearning --probFlap 0.1 --rounding 10 --lr 0.8 --order backward --epsilon 0
 ```
 
-You can tweak the parameters as you want, try different algorithms by replacing "QLearning" with an algorithm from ('Baseline' ,'QLearning', 'SARSA', 'FuncApproxLR', 'FuncApproxDNN', 'FuncApproxCNN').
+You can tweak the parameters as you want, try different algorithms by replacing "QLearning" with an algorithm from ('Baseline' ,'QLearning', 'SARSA').
 
 ## Evaluating performance
 
@@ -76,13 +76,6 @@ python graph.py --algo QLearning --rounding 50 --lastIter 2500 --interval 250
 * **--lastIter** here represents the caption of the last score.json file. In this case it would be named: *score_2500.json*
 * **--interval** represents the interval which separates two subsequent testing phases. In other words names' captions would be separated by this value. E.g *score_250.json*, *score_500.json*, *score_750.json*, ...
 
-Alternatively you can append *--graph* argument with value *True* to the call of main.py:
-
-```bash
-python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0 --graph True
-```
-
-In this case the graph will be generated at the end of training.
 ## Original Authors
 
 * **Tai Vu** - Stanford University
