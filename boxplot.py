@@ -5,14 +5,14 @@ sys.path.append('./agents')
 sys.path.append('./utils')
 import argparse
 
-from generate_graph import generate_graph
+from generate_boxplot import generate_boxplot
 
 
 agent_options = ['Baseline' ,'QLearning', 'SARSA']
 
 def parseArgs():
     ''' Reads command line arguments. '''
-    parser = argparse.ArgumentParser(description = 'Graph generator for scores from Flappy Bird.',
+    parser = argparse.ArgumentParser(description = 'Boxplot generator for scores from Flappy Bird.',
                                      formatter_class = argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--algo', type = str, default = 'QLearning',
@@ -26,7 +26,7 @@ def parseArgs():
 def main():
     args = parseArgs()
 
-    generate_graph(algo=args.algo, rounding=args.rounding)
+    generate_boxplot(algo=args.algo, rounding=args.rounding)
 
 if __name__ == '__main__':
     main()

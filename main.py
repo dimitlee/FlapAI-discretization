@@ -16,6 +16,7 @@ from QLearningAgent import QLearningAgent
 from SARSAAgent import SARSAAgent   # We got rid of function approximation allgorithms for our project
 # function to generate graphs from the score files
 from generate_graph import generate_graph
+from generate_boxplot import generate_boxplot
 
 import warnings
 warnings.filterwarnings('ignore')

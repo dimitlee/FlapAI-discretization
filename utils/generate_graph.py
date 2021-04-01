@@ -2,8 +2,29 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
+from os import walk
+import sys
 
-def generate_graph(algo, rounding, numTrainIters, interval):
+def generate_graph(algo, rounding):
+    dirpath, _, filenames = next(walk("scores"))
+
+    max_iter = 0
+    for filename in filenames:
+        iter = filename.split("_")[1]
+        iter = iter.split(".")[0]
+
+        if int(iter) > max_iter:
+            max_iter = int(iter)
+
+    interval = sys.maxsize
+    for filename in filenames:
+        iter = filename.split("_")[1]
+        iter = iter.split(".")[0]
+
+        if int(iter) != max_iter:
+            if max_iter - int(iter) < interval:
+                interval = max_iter - int(iter)
+
     if rounding == None:
         rounding = 1
     iter = interval
@@ -11,7 +32,8 @@ def generate_graph(algo, rounding, numTrainIters, interval):
     avgScore = [0]
     stdev = [0]
     x = [0]
-    while iter <= numTrainIters:
+
+    while iter <= max_iter:
         # Open json file with scores
         with open(f'scores/scores_{iter}.json') as f:
             data = json.load(f)

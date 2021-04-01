@@ -63,14 +63,36 @@ For **10x10** run:
 python3 main.py --algo QLearning --probFlap 0.1 --rounding 10 --lr 0.8 --order backward --epsilon 0
 ```
 
-You can tweak the parameters as you want, try different algorithms by replacing "QLearning" with an algorithm from ('Baseline' ,'QLearning', 'SARSA').
+You can tweak the parameters as you want, try **forward** update order by running:
+```bash
+python3 main.py --algo QLearning --probFlap 0.1 --rounding 10 --lr 0.8 --order forward --epsilon 0
+```
 
+You can also run other agents, for instance **SARSA**:
+```bash
+python3 main.py --algo SARSA --probFlap 0.1 --rounding 10 --lr 0.8 --order forward --epsilon 0
+```
+
+Or you can try different **exploration rate**:
+```bash
+python3 main.py --algo QLearning --probFlap 0.1 --rounding 10 --lr 0.8 --order forward --epsilon 0.1
+```
 ## Evaluating performance
 
 After some time (250 iterations by default) algorithms start a testing phase, during which scores (number of tubes passed) are recorded and then written into a json file, where the name of the file represents at which iteration the testing began. You can generate graphs of maximum score and average score over several such testing phases. Below is an example of how you can do that in console:
 
 ```bash
-python graph.py --algo QLearning --rounding 50 --lastIter 2500 --interval 250
+python graph.py --algo QLearning --rounding 50
+```
+
+You can also see the distribution of scores by generating boxplots and barcharts. The code will generate these graphs for each testing phase and for the whole run.
+
+```bash
+python boxplot.py --algo QLearning --rounding 50
+```
+
+```bash
+python bargraph.py --algo QLearning --rounding 50
 ```
 
 * **--lastIter** here represents the caption of the last score.json file. In this case it would be named: *score_2500.json*
