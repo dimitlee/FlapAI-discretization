@@ -73,20 +73,20 @@ class SARSAAgent(FlappyBirdAgent):
         with open(f'Qvalues/qValues_{iteration}.json', 'w') as fp:
             json.dump(toSave, fp)
 
-    def loadQValues(self):
+    def loadQValues(self, iteration):
         ''' Loads the Q-values. '''
         def parseKey(key):
             state = key[:-9]
             action = int(key[-1])
             return (state, action)
 
-        with open('qValues.json') as fp:
+        with open(f'Qvalues/qValues_{iteration}.json') as fp:
             toLoad = json.load(fp)
             self.qValues = {parseKey(key) : toLoad[key] for key in toLoad}
 
     def train(self, order = 'forward', numIters = 20000, epsilon = 0.1, discount = 1,
               eta = 0.9, epsilonDecay = False, etaDecay = False, evalPerIters = 250,
-              numItersEval = 1000):
+              numItersEval = 1000, startIter = 0):
         '''
         Trains the agent.
 
@@ -115,7 +115,7 @@ class SARSAAgent(FlappyBirdAgent):
         maxScore = 0
         maxReward = 0
 
-        for i in range(numIters):
+        for i in range(startIter, numIters):
             if i % 50 == 0 or i == numIters - 1:
                 print("Iter: ", i)
 

@@ -59,6 +59,9 @@ def parseArgs():
                         help = 'Use learning rate decay or not.')
     parser.add_argument('--graph', action = 'store_true',
                         help = 'To generate graph for scores or not')
+    parser.add_argument('--startIter', type = int, default = 0,
+                        help = 'The iteration to start training with in case of continuing stopped experiment')
+
 
     args = parser.parse_known_args()[0]
     return args
@@ -78,20 +81,26 @@ def main():
 
     elif args.algo == 'QLearning':
         agent = QLearningAgent(actions = [0, 1], rounding = args.rounding, probFlap = args.probFlap)
+        if args.startIter != 0:
+            print(f"Starting from iteration: {args.startIter}")
+            agent.loadQValues(args.startIter)
         agent.train(order = args.order, numIters = args.numTrainIters, epsilon = args.epsilon,
                     discount = args.discount, eta = args.lr, epsilonDecay = args.epsilonDecay,
                     etaDecay = args.lrDecay, evalPerIters = args.evalPerIters,
-                    numItersEval = args.numTestIters)
+                    numItersEval = args.numTestIters, startIter = args.startIter)
         if args.graph:  # generate graph if specified
             generate_graph(algo=args.algo, rounding=args.rounding, numTrainIters=args.numTrainIters,
                             interval=args.evalPerIters)
 
     elif args.algo == 'SARSA':
         agent = SARSAAgent(actions = [0, 1], rounding = args.rounding, probFlap = args.probFlap)
+        if args.startIter != 0:
+            print(f"Starting from iteration: {args.startIter}")
+            agent.loadQValues(args.startIter)
         agent.train(order = args.order, numIters = args.numTrainIters, epsilon = args.epsilon,
                     discount = args.discount, eta = args.lr, epsilonDecay = args.epsilonDecay,
                     etaDecay = args.lrDecay, evalPerIters = args.evalPerIters,
-                    numItersEval = args.numTestIters)
+                    numItersEval = args.numTestIters, startIter = args.startIter)
         if args.graph:
             generate_graph(algo=args.algo, rounding=args.rounding, numTrainIters=args.numTrainIters,
                             interval=args.evalPerIters)
