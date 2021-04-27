@@ -8,9 +8,9 @@ You can walk through a [Google Colab notebook](https://colab.research.google.com
 
 ## Installation
 
-The project requires the following frameworks:
+Before installing PyGame library go to [link](https://www.pygame.org/wiki/Compilation) choose your operating system and follow the instructions to install the required dependencies for PyGame.
 
-Pygame:
+To install PyGame run:
 ```bash
 pip install pygame==1.9.6
 ```
@@ -35,6 +35,16 @@ PLE:
 git clone https://github.com/ntasfi/PyGame-Learning-Environment.git
 cd PyGame-Learning-Environment
 pip install -e .
+```
+
+MatPlotLib:
+```
+pip install matplotlib
+```
+
+Seaborn:
+```
+pip install seaborn
 ```
 
 ## Train an Agent
