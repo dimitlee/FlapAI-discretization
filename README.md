@@ -87,6 +87,14 @@ Or you can try different **exploration rate**:
 ```bash
 python3 main.py --algo QLearning --probFlap 0.1 --rounding 10 --lr 0.8 --order forward --epsilon 0.1
 ```
+
+The training process takes several days, assuming the max score is high enough (~1000), so you can stop the program at any time, since the program saves the Q-values as json files. Then you can continue the training by specifying the iteration from which to start training (Q-values are saved at each testing phase, so it should be a multiple of 250, or other number if you changed evalPerIter value). The program will load the corresponding Q-value and continue from this iteration.
+
+For example if you stopped at iteration 2500, run the following line to continue the experiment:
+```bash
+python3 main.py --algo QLearning --probFlap 0.1 --rounding 50 --lr 0.8 --order backward --epsilon 0 --startIter 2500
+```
+
 ## Evaluating performance
 
 After some time (250 iterations by default) algorithms start a testing phase, during which scores (number of tubes passed) are recorded and then written into a json file, where the name of the file represents at which iteration the testing began. You can generate graphs of maximum score and average score over several such testing phases. Below is an example of how you can do that in console:
