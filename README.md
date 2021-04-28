@@ -2,9 +2,6 @@
 
 This repository borrows code from https://github.com/taivu1998/FlapAI-Bird for reproduction of their Reinforcement Learning Experiment in Flappy-Bird environment. In our experiment we are focusing on discretization feature in order to find the balance between convergence and final performance.
 
-## Google Colab
-
-You can walk through a [Google Colab notebook](https://colab.research.google.com/drive/1lMExzNABtF8oMpOh3EqbLdoTjHE_09fG?authuser=1#scrollTo=XB0YesYbfMvx) to check out the process of working with this project.
 
 ## Installation
 
@@ -112,9 +109,6 @@ python boxplot.py --algo QLearning --rounding 50
 ```bash
 python bargraph.py --algo QLearning --rounding 50
 ```
-
-* **--lastIter** here represents the caption of the last score.json file. In this case it would be named: *score_2500.json*
-* **--interval** represents the interval which separates two subsequent testing phases. In other words names' captions would be separated by this value. E.g *score_250.json*, *score_500.json*, *score_750.json*, ...
 
 ## Original Authors
 
