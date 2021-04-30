@@ -1,6 +1,6 @@
 # Study of the Impact of Discretization in RL: Tradeoff Between Convergence and Final Performance in Huge State Spaces
 
-This repository borrows code from https://github.com/taivu1998/FlapAI-Bird for reproduction of their Reinforcement Learning Experiment in Flappy-Bird environment. In our experiment we are focusing on discretization feature in order to find the balance between convergence and final performance.
+This repository borrows code from https://github.com/taivu1998/FlapAI-Bird for reproduction of their Reinforcement Learning Experiment in Flappy-Bird environment. In our experiment we are focusing on discretization feature in order to find the balance between convergence and final performance. You can also look at the report of our reproduction: https://drive.google.com/file/d/1vbh8JXSwGYI8TdeiTGPt1x0vrCPgWuq4/view?usp=sharing
 
 
 ## Installation
